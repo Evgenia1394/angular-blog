@@ -1,8 +1,5 @@
 export interface Environment {
-  production: boolean,
-  apiKey: string
+  apiKey: string,
+  production: boolean
 }
 
-export interface FbAuthResponse {
-  idToken: string
-}
