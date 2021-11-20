@@ -14,12 +14,12 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean | any {
     if (this.auth.isAuthenticated()) {
-    return true
+    return true //можно пользоваться роутом
     } else {
       this.auth.logout()
-      this.router.navigate(['/admin', 'login'], {
+      this.router.navigate(['/admin', 'login'], {//если нет - войти
         queryParams: {
-          loginAgain: true
+          loginAgain: true //тут мог быть любой ключ
         }
       })
     }
