@@ -14,10 +14,41 @@ export class PostsService {
       .pipe(map((response: any) => {
         return {
           ...post,
-          id: response.name,
-          date: new Date(post.Date)
+          id: response.id as string,
+          Date: new Date(post.Date)
         }
     })
     )
+  }
+  getAll (): Observable<Post[]> {
+    return this.http.get(`${environment.FbDbUrl}/posts.json`)
+      .pipe(map((responce: {[key: string]: any}) => {
+        return Object
+          .keys(responce)
+          .map(key => ({
+            ...responce[key],
+            id: key as string,
+            date: new Date(responce[key].date)
+          }))
+      })
+      )
+  }
+
+  getById(id: string): Observable<Post> {
+    return this.http.get<Post>(`${environment.FbDbUrl}/posts/${id}.json`)
+      .pipe(map((post: Post) => {
+        return {
+              ...post, id,
+              date: new Date(post.Date)
+        }
+  }))
+  }
+
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.FbDbUrl}/posts/${id}.json`)
+  }
+
+  update(post: Post): Observable<Post> {
+    return this.http.patch<Post>(`${environment.FbDbUrl}/posts/${post.id}.json`, post)
   }
 }

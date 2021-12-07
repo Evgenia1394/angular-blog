@@ -5,7 +5,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {FbAuthResponse, User} from "../../../shared/interfaces";
 import {environment} from "../../../../environments/environment";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthService {
 
   public error$: Subject<string>
@@ -39,7 +39,7 @@ export class AuthService {
     return !!this.token
   }
 
-  private setToken(response: any | null) {//для добавления токена ко всем запросам
+  public setToken(response: any | null) {//для добавления токена ко всем запросам
     if (response) {
       const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000)//сейчас+время жизни токена
       localStorage.setItem('fb-token', response.idToken)//записываю токен fb-token в localStorage из ответа
