@@ -21,14 +21,14 @@ export class PostsService {
     )
   }
   getAll (): Observable<Post[]> {
-    return this.http.get(`${environment.FbDbUrl}/posts.json`)
-      .pipe(map((responce: {[key: string]: any}) => {
+    return this.http.get<Post>(`${environment.FbDbUrl}/posts.json`)
+      .pipe(map((response: {[key: string]: any}) => {
         return Object
-          .keys(responce)
+          .keys(response)
           .map(key => ({
-            ...responce[key],
+            ...response[key],
             id: key as string,
-            date: new Date(responce[key].date)
+            date: new Date(response[key].date)
           }))
       })
       )
